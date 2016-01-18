@@ -60,7 +60,7 @@ describe('quadtree', function () {
     quadtree = createQuadtree(bounds, 1);
     quadtree.insert(new Quadtree.Bounds(0, 0, 5, 5));
     quadtree.insert(new Quadtree.Bounds(30, 30, 5, 5));
-    expect(quadtree.getDepth()).to.equal(2);
+    expect(quadtree.getDepth()).to.equal(1);
   });
 
 });
