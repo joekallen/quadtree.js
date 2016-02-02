@@ -17,7 +17,7 @@ module Quadtree {
 
       this.leftX = validateNumber(x, 'x');
       this.topY = validateNumber(y, 'y');
-      this.width = validateNumber(width, 'widht');
+      this.width = validateNumber(width, 'width');
       this.height = validateNumber(height, 'height');
 
       this.rightX = x + width;

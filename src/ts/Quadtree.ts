@@ -111,9 +111,9 @@ module Quadtree {
 
     quads[0] = createQuadFromRect(x, y, width, height);
     quads[0].id = quad.id + '0';
-    quads[1] = createQuadFromRect(middleX, x, width, height);
+    quads[1] = createQuadFromRect(middleX, y, width, height);
     quads[1].id = quad.id + '1';
-    quads[2] = createQuadFromRect(y, middleY, width, height);
+    quads[2] = createQuadFromRect(x, middleY, width, height);
     quads[2].id = quad.id + '2';
     quads[3] = createQuadFromRect(middleX, middleY, width, height);
     quads[3].id = quad.id + '3';
@@ -126,7 +126,7 @@ module Quadtree {
 
       if (insertIndex !== -1) {
         nodes.splice(index, 1);
-        childQuad = quads[insertIndex]
+        childQuad = quads[insertIndex];
         depthAdded += insertNodeIntoQuad(node, childQuad, maxItems);
       }
 
@@ -204,7 +204,7 @@ module Quadtree {
     return !(y < nodeBounds.topY || y > nodeBounds.bottomY);
   }
 
-  function createBounds(bounds:any) {
+  function createBounds(bounds:any):Bounds {
     if (bounds === null || typeof bounds === 'undefined') {
       throw new TypeError('bounds parameter must be defined');
     } else if (!(bounds instanceof Bounds)) {
@@ -242,60 +242,30 @@ module Quadtree {
 
   function queryIntersection(quadtree:Quadtree, testArea:any, nodeIntersectionTest:IntersectionTest):any[] {
     var results:any[] = [],
-      path:any[] = [],
-      done:boolean = false,
+      queue:Quad[] = [quadtree],
+      queueIndex:number = 0,
       intersects:boolean,
-      index:number = 0,
-      quads:Quad[] = [quadtree],
       quad:Quad,
-      pathIndex:number,
-      shouldPop:boolean,
-      pathObj:any,
-      x:any = {
-        quads: [this],
-        index: 0
-      };
+      quads:Quad[],
+      childQuadIndex:number;
 
-    while (!done) {
-      quad = quads[index];
+
+    while (queueIndex >= 0) {
+      quad = queue[queueIndex];
+      --queueIndex;
+
       intersects = nodeIntersectionTest(quad, testArea);
 
       if (intersects) {
-
-        // check if there are child quads
-        if (quad._quads.length) {
-          path.push({
-            index: index,
-            quad: quad
-          });
-          quads = quad._quads;
-          index = 0;
-          continue;
-        }
-
         // this node intersects, check children
         findIntersectingNodes(quad, testArea, nodeIntersectionTest, results);
-      }
-
-      // pop up to handle next node
-      pathIndex = path.length - 1;
-      shouldPop = pathIndex >= 0;
-      while (shouldPop && pathIndex >= 0) {
-        pathObj = path[pathIndex];
-        index = ++pathObj.index;
-        quad = pathObj.quad;
-
-        if (index < 4) {
-          shouldPop = false;
-        } else {
-          path.pop();
-          --pathIndex;
-        }
-
         quads = quad._quads;
+        childQuadIndex = quads.length - 1;
+        while(childQuadIndex >= 0){
+          queue[++queueIndex] = quads[childQuadIndex];
+          --childQuadIndex;
+        }
       }
-
-      done = path.length === 0;
     }
 
     return results;

@@ -7,7 +7,7 @@ var Quadtree;
             }
             this.leftX = Quadtree.validateNumber(x, 'x');
             this.topY = Quadtree.validateNumber(y, 'y');
-            this.width = Quadtree.validateNumber(width, 'widht');
+            this.width = Quadtree.validateNumber(width, 'width');
             this.height = Quadtree.validateNumber(height, 'height');
             this.rightX = x + width;
             this.bottomY = y + height;
@@ -77,9 +77,9 @@ var Quadtree;
         height = bounds.height / 2;
         quads[0] = createQuadFromRect(x, y, width, height);
         quads[0].id = quad.id + '0';
-        quads[1] = createQuadFromRect(middleX, x, width, height);
+        quads[1] = createQuadFromRect(middleX, y, width, height);
         quads[1].id = quad.id + '1';
-        quads[2] = createQuadFromRect(y, middleY, width, height);
+        quads[2] = createQuadFromRect(x, middleY, width, height);
         quads[2].id = quad.id + '2';
         quads[3] = createQuadFromRect(middleX, middleY, width, height);
         quads[3].id = quad.id + '3';
@@ -172,41 +172,20 @@ var Quadtree;
         }
     }
     function queryIntersection(quadtree, testArea, nodeIntersectionTest) {
-        var results = [], path = [], done = false, intersects, index = 0, quads = [quadtree], quad, pathIndex, shouldPop, pathObj, x = {
-            quads: [this],
-            index: 0
-        };
-        while (!done) {
-            quad = quads[index];
+        var results = [], queue = [quadtree], queueIndex = 0, intersects, quad, quads, childQuadIndex;
+        while (queueIndex >= 0) {
+            quad = queue[queueIndex];
+            --queueIndex;
             intersects = nodeIntersectionTest(quad, testArea);
             if (intersects) {
-                if (quad._quads.length) {
-                    path.push({
-                        index: index,
-                        quad: quad
-                    });
-                    quads = quad._quads;
-                    index = 0;
-                    continue;
-                }
                 findIntersectingNodes(quad, testArea, nodeIntersectionTest, results);
-            }
-            pathIndex = path.length - 1;
-            shouldPop = pathIndex >= 0;
-            while (shouldPop && pathIndex >= 0) {
-                pathObj = path[pathIndex];
-                index = ++pathObj.index;
-                quad = pathObj.quad;
-                if (index < 4) {
-                    shouldPop = false;
-                }
-                else {
-                    path.pop();
-                    --pathIndex;
-                }
                 quads = quad._quads;
+                childQuadIndex = quads.length - 1;
+                while (childQuadIndex >= 0) {
+                    queue[++queueIndex] = quads[childQuadIndex];
+                    --childQuadIndex;
+                }
             }
-            done = path.length === 0;
         }
         return results;
     }
