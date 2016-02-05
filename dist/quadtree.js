@@ -12,7 +12,7 @@ var Quadtree;
             this.rightX = x + width;
             this.bottomY = y + height;
             this.middleX = this.rightX - width / 2;
-            this.middleY = this.bottomY - width / 2;
+            this.middleY = this.bottomY - height / 2;
         }
         return Bounds;
     })();
