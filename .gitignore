@@ -1,2 +1,6 @@
 .tscache/*
 *.iml
+*.swp
+*.orig
+.node_modules/
+
