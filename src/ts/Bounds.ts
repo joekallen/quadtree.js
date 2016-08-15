@@ -1,6 +1,6 @@
 import {validateNumber} from './util';
 
-class Bounds {
+export class Bounds {
   leftX:number;
   rightX:number;
   topY:number;
@@ -12,11 +12,6 @@ class Bounds {
 
   constructor(x:number, y:number, width:number, height:number) {
     // TODO: Make this an interface
-
-    if (!(this instanceof Bounds)) {
-      return new Bounds(x, y, width, height);
-    }
-
     if( width < 0 ){
       throw new RangeError('width must be >= 0');
     }
@@ -37,5 +32,3 @@ class Bounds {
     this.middleY = this.bottomY - height / 2;
   }
 };
-
-export default Bounds;

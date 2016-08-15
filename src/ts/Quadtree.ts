@@ -1,4 +1,4 @@
-import Bounds from './Bounds';
+import {Bounds} from './Bounds';
 import {validateNumber} from './util';
 
 const DEFAULT_MAX_ITEMS:number = 4;
@@ -52,21 +52,21 @@ function getQuadIndex(quad:Quad, node:Node):number {
     yOffset:number = 0,
     xOffset:number = 0;
 
-  const nodeBounds:Bounds = quad._bounds,
-    valueBounds:Bounds = node._bounds;
+  const quadBounds:Bounds = quad._bounds,
+    nodeBounds:Bounds = node._bounds;
 
-  const leftX:number = valueBounds.leftX,
-    rightX:number = valueBounds.rightX,
-    topY:number = valueBounds.topY,
-    bottomY:number = valueBounds.bottomY,
-    middleX:number = nodeBounds.middleX,
-    middleY:number = nodeBounds.middleY;
+  const leftX:number = nodeBounds.leftX,
+    rightX:number = nodeBounds.rightX,
+    topY:number = nodeBounds.topY,
+    bottomY:number = nodeBounds.bottomY,
+    middleX:number = quadBounds.middleX,
+    middleY:number = quadBounds.middleY;
 
-  if (nodeBounds.leftX > valueBounds.leftX || nodeBounds.rightX < rightX) {
+  if (quadBounds.leftX > nodeBounds.leftX || quadBounds.rightX < rightX) {
     return index;
   }
 
-  if (nodeBounds.topY > valueBounds.topY || nodeBounds.bottomY < bottomY) {
+  if (quadBounds.topY > nodeBounds.topY || quadBounds.bottomY < bottomY) {
     return index;
   }
 
@@ -89,13 +89,12 @@ function getQuadIndex(quad:Quad, node:Node):number {
   return xOffset + yOffset;
 }
 
-function splitQuad(quad:Quad, maxItems:number):number {
+function splitQuad(quad:Quad, maxItems:number):void {
   const bounds:Bounds = quad._bounds,
     quads:Array<Quad> = quad._quads,
     nodes:Array<Node> = quad._nodes;
 
-  let depthAdded:number = 0,
-    childQuad:Quad,
+  let childQuad:Quad,
     node:Node,
     index:number,
     insertIndex:number;
@@ -126,21 +125,18 @@ function splitQuad(quad:Quad, maxItems:number):number {
     if (insertIndex !== -1) {
       nodes.splice(index, 1);
       childQuad = quads[insertIndex];
-      depthAdded += insertNodeIntoQuad(node, childQuad, maxItems);
+      insertNodeIntoQuad(node, childQuad, maxItems);
     }
 
     --index;
   }
-
-  return depthAdded;
 }
 
-function insertNodeIntoQuad(node:Node, quad:Quad, maxItems:number):number {
+function insertNodeIntoQuad(node:Node, quad:Quad, maxItems:number):void {
   const quads:Array<Quad> = quad._quads,
     hasNodes = quads.length > 0;
 
-  let depthAdded:number = 0,
-    nodes:Array<Node>,
+  let nodes:Array<Node>,
     index:number;
 
   if (hasNodes) {
@@ -159,10 +155,8 @@ function insertNodeIntoQuad(node:Node, quad:Quad, maxItems:number):number {
   nodes = quad._nodes;
   nodes.push(node);
   if (quad._quads.length === 0 && nodes.length > maxItems) {
-    depthAdded += splitQuad(quad, maxItems);
+    splitQuad(quad, maxItems);
   }
-
-  return depthAdded;
 }
 
 function validateMaxItems(maxItems:any) {
@@ -203,11 +197,9 @@ function intersectsPoint(bounded:Bounded, point:Point) {
 function createBounds(bounds:any):Bounds {
   if (bounds === null || typeof bounds === 'undefined') {
     throw new TypeError('bounds parameter must be defined');
-  } else if (!(bounds instanceof Bounds)) {
-    return new Bounds(bounds.x, bounds.y, bounds.width, bounds.height);
   }
 
-  return bounds;
+  return new Bounds(bounds.x, bounds.y, bounds.width, bounds.height);
 }
 
 function createPoint(point:any) {
@@ -269,7 +261,6 @@ function queryIntersection(quadtree:Quadtree, testArea:any, nodeIntersectionTest
 }
 
 export class Quadtree implements Quad {
-  private _depth:number = 1;
   private _size:number = 0;
   private _maxItems:number = DEFAULT_MAX_ITEMS;
   _nodes:Array<Node> = [];
@@ -281,16 +272,11 @@ export class Quadtree implements Quad {
   constructor(bounds:Bounds, maxItems:number) {
     let parsedBounds:Bounds = createBounds(bounds);
 
-    if (!(this instanceof Quadtree)) {
-      return new Quadtree(parsedBounds, maxItems);
-    }
-
     this._maxItems = validateMaxItems(maxItems);
     this._bounds = parsedBounds;
   }
 
   clear():void {
-    this._depth = 0;
     this._size = 0;
     this._quads = [];
     this._nodes = [];
@@ -302,10 +288,6 @@ export class Quadtree implements Quad {
 
   getMaxItems():number {
     return this._maxItems;
-  }
-
-  getDepth():number {
-    return this._depth;
   }
 
   getSize():number {
@@ -326,9 +308,7 @@ export class Quadtree implements Quad {
     const parsedBounds:Bounds = createBounds(bounds),
       node = createNode(parsedBounds, value);
 
-    const depthAdded:number = insertNodeIntoQuad(node, this, this._maxItems);
-
-    this._depth += depthAdded;
+    insertNodeIntoQuad(node, this, this._maxItems);
     ++this._size;
   }
 }

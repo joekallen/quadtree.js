@@ -4,4 +4,4 @@ export function validateNumber(value:number, propertyName:string):number {
   }
 
   return Number(value);
-};
+}

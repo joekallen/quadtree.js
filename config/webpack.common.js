@@ -6,12 +6,11 @@ module.exports = {
   },
   devtool: 'source-map',
   resolve: {
-    modulesDirectories: ['node_modules', 'src'],
+    modulesDirectories: ['node_modules', 'src', 'test'],
     fallback: path.join(__dirname, '..', 'node_modules'),
     extensions: ['', '.ts', '.html', '.js']
   },
   output: {
-    library: ['Quadtree'],
     libraryTarget: 'umd'
   },
   //tslint: require('./tslint'),

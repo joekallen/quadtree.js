@@ -1,6 +1,4 @@
-# QuadtreeJS
-[![Build Status](https://travis-ci.org/joekallen/quadtree.js.svg?branch=master)](https://travis-ci.org/joekallen/quadtree.js)
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/xemus.svg)](https://saucelabs.com/u/xemus)
+# quadtree.js
 
 A [quadtree](https://en.wikipedia.org/wiki/Quadtree) recursively partitions two-dimensional space into squares, dividing each square into four equally-sized squares. Each distinct object exists in a unique leaf [node](#nodes). A Quadtree can accelerate spatial operations such as collision detection and searching for nearby points.
 
@@ -13,7 +11,7 @@ A [quadtree](https://en.wikipedia.org/wiki/Quadtree) recursively partitions two-
 
 ## Installing
 
-If you use NPM, `npm install QuadtreeJS`. Otherwise, download the [latest release](https://github.com/joekallen/quadtree.js/releases/latest).
+If you use NPM, `npm install quadtree.js`. Otherwise, download the [latest release](https://github.com/joekallen/quadtree.js/releases/latest).
 
 
 ## Usage

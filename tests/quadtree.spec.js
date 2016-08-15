@@ -3,7 +3,7 @@
 describe('quadtree', function () {
   var quadtree, bounds;
   var createQuadtree = function createQuadtree(bounds, maxItems) {
-    return new Quadtree.Quadtree(bounds, maxItems);
+    return new Quadtree(bounds, maxItems);
   };
 
   beforeEach(function () {
