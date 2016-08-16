@@ -1,5 +1,4 @@
-// Karma configuration
-// Generated on Sun Nov 29 2015 12:44:22 GMT-0700 (MST)
+const webpackConfig = require('./webpack.test');
 
 module.exports = function (config) {
   if( !process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY){
@@ -52,28 +51,32 @@ module.exports = function (config) {
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './',
+
+    /** Preprocessors */
+    preprocessors: {
+      './karma-test-shim.js': ['webpack', 'sourcemap']
+    },
 
     // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai'],
+    frameworks: [
+      'chai',
+      'jasmine-given',
+      'jasmine'
+    ],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'src/js/*.js',
-      'test/**/*.spec.js'
+      {
+        pattern: './karma-test-shim.js',
+        watched: false
+      }
     ],
 
 
     // list of files to exclude
     exclude: [],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {},
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -87,6 +90,16 @@ module.exports = function (config) {
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
+
+    webpack: webpackConfig,
+
+    webpackMiddleware: {
+      stats: 'errors-only'
+    },
+
+    webpackServer: {
+      noInfo: false
+    },
 
 
     // level of logging
@@ -108,6 +121,18 @@ module.exports = function (config) {
 
     // Concurrency level
     // how many browser should be started simultanous
-    concurrency: Infinity
+    concurrency: Infinity,
+
+    plugins:[
+      'karma-chai',
+      'karma-jasmine-given',
+      'karma-nested-reporter',
+      'karma-jasmine-diff-reporter',
+      'karma-chrome-launcher',
+      'karma-jasmine',
+      'karma-webpack',
+      'karma-sourcemap-loader',
+      'karma-sauce-launcher'
+    ]
   })
 };

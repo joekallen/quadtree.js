@@ -1,5 +1,9 @@
 # quadtree.js
 
+[![Build Status](https://travis-ci.org/joekallen/quadtree.js.svg?branch=master)](https://travis-ci.org/joekallen/quadtree.js)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/xemus.svg)](https://saucelabs.com/u/xemus)
+
+
 A [quadtree](https://en.wikipedia.org/wiki/Quadtree) recursively partitions two-dimensional space into squares, dividing each square into four equally-sized squares. Each distinct object exists in a unique leaf [node](#nodes). A Quadtree can accelerate spatial operations such as collision detection and searching for nearby points.
 
 > This library is intended for fast detection of potential collisions using bounding boxes, a more exact check should be run on the potential candidates returned.

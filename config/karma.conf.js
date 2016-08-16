@@ -1,7 +1,7 @@
 const webpackConfig = require('./webpack.test');
 
 module.exports = function (config) {
-  var cfg = {
+  config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: './',
@@ -87,8 +87,6 @@ module.exports = function (config) {
       noInfo: false
     },
 
-
-
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
@@ -111,8 +109,5 @@ module.exports = function (config) {
       'karma-webpack',
       'karma-sourcemap-loader'
     ]
-  };
-
-  console.log(cfg.files);
-  config.set(cfg);
+  });
 };
