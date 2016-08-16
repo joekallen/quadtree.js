@@ -4,8 +4,8 @@
   "description": "A javascript library for generating hit detection candidates in a 2-d space.",
   "main": "dist/quadtree.js",
   "scripts": {
-    "test-ci": "./node_modules/karma-cli/bin/karma start ./config/karma.ci.conf.js",
-    "test": "./node_modules/karma-cli/bin/karma start ./config/karma.conf.js",
+    "test": "./node_modules/karma-cli/bin/karma start ./config/karma.ci.conf.js",
+    "testd": "./node_modules/karma-cli/bin/karma start ./config/karma.conf.js",
     "dev": "node ./node_modules/.bin/webpack --config ./config/webpack.dev.js",
     "prod": "node ./node_modules/.bin/webpack --config ./config/webpack.prod.js"
   },
