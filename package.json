@@ -1,6 +1,6 @@
 {
   "name": "quadtree.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A javascript library for generating hit detection candidates in a 2-d space.",
   "main": "dist/quadtree.js",
   "scripts": {
