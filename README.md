@@ -1,6 +1,5 @@
 # quadtree.js
 
-[![Build Status](https://travis-ci.org/joekallen/quadtree.js.svg?branch=master)](https://travis-ci.org/joekallen/quadtree.js)
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/joeallen.svg)](https://saucelabs.com/u/joeallen)
 
 
