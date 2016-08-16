@@ -11,7 +11,6 @@ A [quadtree](https://en.wikipedia.org/wiki/Quadtree) recursively partitions two-
 ### There are still some improvments to be made to the library.
 * Element removal needs implemented.
 * Element updates, such as position or size need to be reflected in the tree.
-* Test coverage needs improved
 
 ## Installing
 
