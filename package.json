@@ -1,8 +1,8 @@
 {
   "name": "quadtree.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A javascript library for generating hit detection candidates in a 2-d space.",
-  "main": "dist/quadtree.js",
+  "main": "dist/js/quadtree.js",
   "scripts": {
     "test": "./node_modules/karma-cli/bin/karma start ./config/karma.ci.conf.js",
     "testd": "./node_modules/karma-cli/bin/karma start ./config/karma.conf.js",
@@ -11,10 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xemus/quadtree.js.git"
+    "url": "git+https://github.com/joekallen/quadtree.js.git"
   },
   "keywords": [
-    "quadtree"
+    "quadtree",
+    "collision",
+    "collision detection", 
+    "space partitioning"
+    "sspatial partitioning"
   ],
   "author": "Joe Allen",
   "license": "GPL-3.0",
