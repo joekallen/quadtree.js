@@ -17,8 +17,8 @@
     "quadtree",
     "collision",
     "collision detection", 
-    "space partitioning"
-    "sspatial partitioning"
+    "space partitioning",
+    "spatial partitioning"
   ],
   "author": "Joe Allen",
   "license": "GPL-3.0",
