@@ -1,8 +1,8 @@
 {
   "name": "quadtree.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A javascript library for generating hit detection candidates in a 2-d space.",
-  "main": "dist/js/quadtree.js",
+  "main": "dist/js/Quadtree.js",
   "scripts": {
     "test": "./node_modules/karma-cli/bin/karma start ./config/karma.ci.conf.js",
     "testd": "./node_modules/karma-cli/bin/karma start ./config/karma.conf.js",
